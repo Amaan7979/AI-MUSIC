@@ -3,11 +3,15 @@ leftWristX=0;
 leftWristY=0;
 rightWristX=0;
 rightWristY=0;
+score_right=0;
+song_status="";
+song2_status="";
 function preload() {
    song=loadSound("Harry Potter Theme Song.mp3") ;
+   song2=loadSound("Ruth B. - Lost Boy.mp3") ;
 }
 function setup() {
-canvas=createCanvas(350,350);
+canvas=createCanvas(500,500);
 canvas.center();
 video=createCapture(VIDEO);
 video.size(350,350);
@@ -16,7 +20,19 @@ poseNet=ml5.poseNet(video,modelLoaded);
 poseNet.on("pose",got_poses);
 }
 function draw() {
-image(video,0,0,350,350);
+image(video,0,0,500,500);
+song_status=song.isPlaying();
+song2_status=song2.isPlaying();
+fill("red");
+stroke("blue");
+if(score_right>0.2){
+    circle(rightWristX,rightWristY,40);
+    song2.stop();
+}
+if(song_status==false){
+    song.play();
+    document.getElementById("song_name").innerHTM="playing Harry Potter";
+}
 }
 function start() {
     song.play();
@@ -39,9 +55,7 @@ function got_poses(results){
     leftWristY=results[0].pose.leftWrist.y;
     rightWristX=results[0].pose.rightWrist.x;
     rightWristY=results[0].pose.rightWrist.y;
-    console.log(leftWristX);
-    console.log(leftWristY);
-    console.log(rightWristX);
-    console.log(rightWristY);
+    score_right=results[0].pose.keypoints[10].score;
+    console.log(score_right);
     }
 }
