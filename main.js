@@ -29,9 +29,17 @@ if(score_right>0.2){
     circle(rightWristX,rightWristY,40);
     song2.stop();
 }
+if(score_left>0.2){
+    circle(leftWristX,leftWristY,40);
+    song.stop();
+}
 if(song_status==false){
     song.play();
     document.getElementById("song_name").innerHTM="playing Harry Potter";
+}
+if(song2_status==false){
+    song.play();
+    document.getElementById("song_name").innerHTM="playing Peter Pan";
 }
 }
 function start() {
@@ -56,6 +64,8 @@ function got_poses(results){
     rightWristX=results[0].pose.rightWrist.x;
     rightWristY=results[0].pose.rightWrist.y;
     score_right=results[0].pose.keypoints[10].score;
+    score_left=results[0].pose.keypoints[9].score;
     console.log(score_right);
+    console.log(score_left);
     }
 }
